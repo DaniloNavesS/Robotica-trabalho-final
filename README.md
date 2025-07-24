@@ -31,43 +31,42 @@ O IK (Inverse Kinematics) é o processo de encontrar os valores das variáveis a
 #### 1. Modelagem Cinemática
 - O robô é modelado como uma cadeia de elos e juntas, cada uma com parâmetros Denavit-Hartenberg (DH) ou equivalentes.
 - A pose do tip é obtida pela multiplicação sucessiva das matrizes de transformação homogênea de cada elo:
-  
-  \[
-  T = T_1(\theta_1) \cdot T_2(\theta_2) \cdot ... \cdot T_n(\theta_n)
-  \]
-  onde cada \(T_i(\theta_i)\) depende do ângulo da junta \(\theta_i\).
+
+  $$
+  T = T_1(\theta_1) \cdot T_2(\theta_2) \cdot \ldots \cdot T_n(\theta_n)
+  $$
 
 #### 2. Problema de IK
 - Dado um target (posição e orientação desejadas), o problema é encontrar o vetor de juntas \(\theta = [\theta_1, \theta_2, ..., \theta_n]\) tal que:
   
-  \[
+  $$
   f(\theta) = x_{desired}
-  \]
+  $$
   onde \(f(\theta)\) é a função cinemática direta do robô.
 
 #### 3. Solução Numérica (Jacobiano)
 - O CoppeliaSim resolve o IK numericamente, usando métodos como Pseudo-Inversa ou Damped Least Squares (DLS).
 - O erro entre a pose atual e a desejada é calculado:
   
-  \[
+  $$
   e = x_{desired} - f(\theta)
-  \]
+  $$
 - O Jacobiano \(J\) relaciona variações nas juntas com variações na pose do tip:
   
-  \[
+  $$
   \dot{x} = J(\theta) \dot{\theta}
-  \]
+  $$
 - A atualização das juntas é feita por:
   
   - **Pseudo-inversa:**
-    \[
+    $$
     \Delta\theta = J^+ e
-    \]
+    $$
     onde \(J^+\) é a pseudo-inversa de Moore-Penrose do Jacobiano.
   - **Damped Least Squares (DLS):**
-    \[
+    $$
     \Delta\theta = J^T (J J^T + \lambda^2 I)^{-1} e
-    \]
+    $$
     onde \(\lambda\) é o fator de amortecimento, que melhora a estabilidade perto de singularidades.
 
 #### 4. Restrições e Singularidades
