@@ -1,6 +1,7 @@
 import sim
 import time
 import math  # para funções trigonométricas
+import csv  # para salvar os pontos
 
 # Conectar ao CoppeliaSim
 sim.simxFinish(-1)
@@ -44,3 +45,10 @@ for pos in circle_points:
 sim.simxStopSimulation(clientID, sim.simx_opmode_blocking)
 sim.simxFinish(clientID)
 print('Movimento circular concluído, simulação finalizada')
+
+# Salvar pontos em um arquivo CSV (após a simulação)
+with open('trajetoria_circulo.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['x', 'y', 'z'])
+    writer.writerows(circle_points)
+print('Trajetória circular salva em trajetoria_circulo.csv')
